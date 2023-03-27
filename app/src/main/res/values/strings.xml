@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Movie Finder App</string>
+    <string name="email_or_username">email or username</string>
+    <string name="password">password</string>
+    <string name="todo">TODO</string>
+    <string name="sign_up_now">SIGN UP NOW</string>
+    <string name="login">LOGIN</string>
+    <string name="don_t_have_an_account">DON\'T HAVE AN ACCOUNT?</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_up_button">SIGN UP</string>
+    <string name="email">email</string>
+    <string name="and_be_the_first_to_be_informed_about_the_films_that_have_been_released">and be the first to be informed about the films that have been released.</string>
+    <string name="username">username</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="movies">movies</string>
+    <string name="search">search</string>
+    <string name="profile">profile</string>
+</resources>
