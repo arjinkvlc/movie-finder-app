@@ -56,6 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_or_email_input" />
 
+
     <Button
         android:id="@+id/login_button"
         android:layout_width="160dp"
@@ -69,6 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_input" />
+
 
     <TextView
         android:id="@+id/register_text"
@@ -94,5 +96,6 @@
         android:typeface="normal"
         app:layout_constraintStart_toEndOf="@id/register_text"
         app:layout_constraintTop_toBottomOf="@id/login_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

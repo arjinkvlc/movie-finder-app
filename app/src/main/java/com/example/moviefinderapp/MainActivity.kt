@@ -25,20 +25,25 @@ class MainActivity : AppCompatActivity() {
         loginButton.setOnClickListener{
             val email=emailInput?.text.toString()
             val password=passwordInput?.text.toString()
-            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this){
-                task->
-                if (task.isSuccessful){
-                    Toast.makeText(this,"Signed Successfully",Toast.LENGTH_SHORT).show()
-                    val homePage=Intent(this,HomePage::class.java).apply {
-                        putExtra("username",email)
+            if(email!=""&&password!=""){
+            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Signed Successfully", Toast.LENGTH_SHORT).show()
+                    val homePage = Intent(this, HomePage::class.java).apply {
+                        putExtra("username", email)
                     }
 
                     startActivity(homePage)
                     //Oturum acildiktan sonra geri dönüldüğünde uygulamadan cikis yapimasini sağlar
                     finish()
-                }else{
-                    Toast.makeText(this,"Wrong username/email or password",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Wrong username/email or password", Toast.LENGTH_SHORT)
+                        .show()
                 }
+            }
+            }else{
+                Toast.makeText(this, "username/email or password cannot be empty!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         //Kayıt olmak isteyen kullanıcılar butona bastığında Register Page'a geçiş yapılması komutu

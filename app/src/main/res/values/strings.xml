@@ -16,4 +16,5 @@
     <string name="movies">movies</string>
     <string name="search">search</string>
     <string name="profile">profile</string>
+    <string name="search_for">search for...</string>
 </resources>

@@ -29,23 +29,36 @@ class RegisterPage : AppCompatActivity() {
             //Firebase Realtime veritabanina kullanici bilgilerini kaydetme
             val password = passwordInput?.text.toString()
             val userData = User(username, email, password)
-            myRef.child(username).setValue(userData)
+            if(username!="" && email!="" && password!="") {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            myRef.child(username).setValue(userData)
+                            Toast.makeText(this, "Registered Successfully!", Toast.LENGTH_SHORT)
+                                .show()
 
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Registered Successfully!", Toast.LENGTH_SHORT).show()
-
-                        val mainPage = Intent(this, HomePage::class.java).apply {
-                            putExtra("username", username)
+                            val mainPage = Intent(this, HomePage::class.java).apply {
+                                putExtra("username", username)
+                            }
+                            startActivity(mainPage)
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Wrong email or password type !",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
                         }
-                        startActivity(mainPage)
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Wrong email or password type !", Toast.LENGTH_SHORT)
-                            .show()
                     }
-                }
+            }else{
+                Toast.makeText(
+                    this,
+                    "Please fill all the form!",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
         }
     }
 }

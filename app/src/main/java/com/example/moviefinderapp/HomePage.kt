@@ -1,14 +1,24 @@
 package com.example.moviefinderapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviefinderapp.databinding.ActivityHomePageBinding
+import com.example.moviefinderapp.models.Movie
+import com.example.moviefinderapp.models.MovieResponse
+import com.example.moviefinderapp.services.MovieApiInterface
+import com.example.moviefinderapp.services.MovieApiService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomePage : AppCompatActivity() {
@@ -19,11 +29,10 @@ class HomePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(MoviesFragment())
+        //replaceFragment(MoviesFragment())
         //Username'i activityden fragment'a gecirme
         val getUsername:String? = intent.getStringExtra("username")
         Toast.makeText(this, getUsername.toString(), Toast.LENGTH_SHORT).show()
-
         //Veritabanindan username alip fragmentta yazdirma
 
         //BottomNavigationView'in menu ogelerini olusturmak icin inflateMenu metodu kullanildi
@@ -33,9 +42,11 @@ class HomePage : AppCompatActivity() {
         val background = ContextCompat.getDrawable(this, R.drawable.transparent)
         findViewById<BottomNavigationView>(R.id.bottom_navigation_bar).background = background
         //NavigationBar menuleri arasinda gecis ve fonksiyonlarini tanimlama
+        val moviesCatalog = Intent(this, HomePage::class.java).apply {
+        }
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.navigation_movies -> replaceFragment(MoviesFragment())
+                R.id.navigation_movies ->startActivity(moviesCatalog)
                 R.id.navigation_search -> replaceFragment(SearchFragment())
                 R.id.navigation_profile -> replaceFragment(ProfileFragment(getUsername.toString()))
                 else -> {
@@ -43,6 +54,29 @@ class HomePage : AppCompatActivity() {
             }
             true
         }
+
+        //binding.rvMoviesList.layoutManager = LinearLayoutManager(this)
+        binding.rvMoviesList.layoutManager=GridLayoutManager(this,2)
+        //binding.rvMoviesList.setHasFixedSize(true)
+        getMovieData { movies : List<Movie> ->
+            binding.rvMoviesList.adapter = MovieAdapter(movies)
+        }
+
+    }
+
+    private fun getMovieData(callback: (List<Movie>) -> Unit){
+        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        apiService.getMovieList().enqueue(object : Callback<MovieResponse> {
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                Log.d("movies","failed")
+            }
+
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                Log.d("movies",response.body().toString())
+                return callback(response.body()!!.movies)
+            }
+
+        })
     }
 
     private fun replaceFragment(fragment: Fragment) {
