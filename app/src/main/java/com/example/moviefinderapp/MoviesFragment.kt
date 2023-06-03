@@ -38,7 +38,7 @@ class MoviesFragment : Fragment() {
      }
     private fun getMovieData(callback: (List<Movie>) -> Unit){
         val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
-        apiService.getMovieList().enqueue(object : Callback<MovieResponse> {
+        apiService.getPopularMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.d("movies","failed")
             }

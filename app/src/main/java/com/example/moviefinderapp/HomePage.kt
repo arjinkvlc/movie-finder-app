@@ -5,12 +5,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviefinderapp.databinding.ActivityHomePageBinding
+import com.example.moviefinderapp.databinding.MovieItemBinding
 import com.example.moviefinderapp.models.Movie
 import com.example.moviefinderapp.models.MovieResponse
 import com.example.moviefinderapp.services.MovieApiInterface
@@ -24,14 +25,14 @@ import retrofit2.Response
 class HomePage : AppCompatActivity() {
     private lateinit var binding: ActivityHomePageBinding
 
-    @SuppressLint("CutPasteId")
+    @SuppressLint("CutPasteId", "WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //replaceFragment(MoviesFragment())
         //Username'i activityden fragment'a gecirme
-        val getUsername:String? = intent.getStringExtra("username")
+        val getUsername: String? = intent.getStringExtra("username")
         Toast.makeText(this, getUsername.toString(), Toast.LENGTH_SHORT).show()
         //Veritabanindan username alip fragmentta yazdirma
 
@@ -46,7 +47,7 @@ class HomePage : AppCompatActivity() {
         }
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.navigation_movies ->startActivity(moviesCatalog)
+                R.id.navigation_movies -> startActivity(moviesCatalog)
                 R.id.navigation_search -> replaceFragment(SearchFragment())
                 R.id.navigation_profile -> replaceFragment(ProfileFragment(getUsername.toString()))
                 else -> {
@@ -54,19 +55,59 @@ class HomePage : AppCompatActivity() {
             }
             true
         }
-
-        //binding.rvMoviesList.layoutManager = LinearLayoutManager(this)
-        binding.rvMoviesList.layoutManager=GridLayoutManager(this,2)
+        //Popular Movies Listing
+        binding.rvMoviesList.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         //binding.rvMoviesList.setHasFixedSize(true)
-        getMovieData { movies : List<Movie> ->
+        getPopularMovieData { movies: List<Movie> ->
             binding.rvMoviesList.adapter = MovieAdapter(movies)
+        }
+        //Highly Rated Movies Listing
+        binding.rvMoviesList2.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        getHighRatedMovieData { movies: List<Movie> ->
+            binding.rvMoviesList2.adapter = MovieAdapter(movies)
+        }
+        //Upcoming Movies Listing
+        binding.rvMoviesList3.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        getUpcomingMovieData { movies: List<Movie> ->
+            binding.rvMoviesList3.adapter = MovieAdapter(movies)
         }
 
     }
 
-    private fun getMovieData(callback: (List<Movie>) -> Unit){
+    private fun getPopularMovieData(callback: (List<Movie>) -> Unit){
         val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
-        apiService.getMovieList().enqueue(object : Callback<MovieResponse> {
+        apiService.getPopularMovieList().enqueue(object : Callback<MovieResponse> {
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                Log.d("movies","failed")
+            }
+
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                Log.d("movies",response.body().toString())
+                return callback(response.body()!!.movies)
+            }
+
+        })
+    }
+    private fun getHighRatedMovieData(callback: (List<Movie>) -> Unit){
+        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        apiService.getHighRatedMovieList().enqueue(object : Callback<MovieResponse> {
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                Log.d("movies","failed")
+            }
+
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                Log.d("movies",response.body().toString())
+                return callback(response.body()!!.movies)
+            }
+
+        })
+    }
+    private fun getUpcomingMovieData(callback: (List<Movie>) -> Unit){
+        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        apiService.getUpcomingMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.d("movies","failed")
             }

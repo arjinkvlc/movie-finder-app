@@ -7,5 +7,11 @@ import retrofit2.http.GET
 interface MovieApiInterface {
 
     @GET("/3/movie/popular?api_key=bdfa51ccaa4f489cc344ee40f51fba3c")
-    fun getMovieList(): Call<MovieResponse>
+    fun getPopularMovieList(): Call<MovieResponse>
+
+    @GET("/3/movie/top_rated?api_key=bdfa51ccaa4f489cc344ee40f51fba3c")
+    fun getHighRatedMovieList(): Call<MovieResponse>
+
+    @GET("/3/movie/upcoming?api_key=bdfa51ccaa4f489cc344ee40f51fba3c")
+    fun getUpcomingMovieList(): Call<MovieResponse>
 }
