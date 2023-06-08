@@ -12,10 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="420dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/background_poster"
         android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ImageContrastCheck"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -23,16 +25,17 @@
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="25dp"
         android:layout_marginEnd="200dp"
-        android:text="Title"
+        android:layout_marginBottom="25dp"
+        android:text="@string/title"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="@+id/detail_poster"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/tag_overview"
@@ -41,7 +44,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="336dp"
-        android:text="Overview"
+        android:text="@string/overview"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold|italic"
@@ -53,10 +56,10 @@
         android:id="@+id/detail_overview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/overview_description"
         android:textAlignment="center"
-        android:text="TextView"
         android:textColor="#FFFFFF"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +73,7 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="295dp"
-        android:text="Release Date :"
+        android:text="@string/release_date"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold|italic"
@@ -82,9 +85,8 @@
         android:id="@+id/detail_release"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginLeft="60dp"
-        android:text="TextView"
+        android:layout_marginStart="60dp"
+        android:text="@string/dd_mm_yyyy"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
@@ -99,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="320dp"
-        android:text="Rate :"
+        android:text="@string/rate_tag"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold|italic"
@@ -111,9 +113,8 @@
         android:id="@+id/detail_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginLeft="145dp"
-        android:text="TextView"
+        android:layout_marginStart="145dp"
+        android:text="@string/rate_value"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
@@ -121,4 +122,55 @@
         app:layout_constraintBottom_toBottomOf="@id/tag_rate"
         app:layout_constraintStart_toEndOf="@id/tag_rate"
         app:layout_constraintTop_toTopOf="@+id/tag_rate" />
+
+    <Button
+        android:id="@+id/add_fav_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/ic_baseline_favorite_border_24"
+        app:layout_constraintEnd_toEndOf="@+id/detail_poster"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageView
+        android:id="@+id/play_trailer_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/play_trailer_image"
+        app:layout_constraintBottom_toBottomOf="@+id/detail_poster"
+        app:layout_constraintEnd_toEndOf="@+id/detail_poster"
+        app:layout_constraintStart_toStartOf="@+id/detail_poster"
+        app:layout_constraintTop_toTopOf="@+id/detail_poster"
+        app:srcCompat="@android:drawable/ic_media_play"
+        tools:ignore="ImageContrastCheck" />
+
+    <Button
+        android:id="@+id/rate_button"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="1dp"
+        android:background="@color/design_default_color_error"
+        android:text="@string/rate"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+
+        app:layout_constraintEnd_toStartOf="@+id/rating_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rating_input" />
+
+    <RatingBar
+        android:id="@+id/rating_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/rate_button"
+        app:layout_constraintTop_toBottomOf="@+id/detail_rate"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

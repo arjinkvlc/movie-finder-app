@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +13,6 @@ import com.example.moviefinderapp.models.Movie
 import com.example.moviefinderapp.models.MovieResponse
 import com.example.moviefinderapp.services.MovieApiInterface
 import com.example.moviefinderapp.services.MovieApiService
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,44 +26,47 @@ class HomePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //Username'i activityden fragment'a gecirme
+        //Username'i oturum acma sayfasindan homepage'a gecirme
         val getUsername: String? = intent.getStringExtra("username")
-        Toast.makeText(this, getUsername.toString(), Toast.LENGTH_SHORT).show()
         //BottomNavigationView'in menu ogelerini olusturmak icin inflateMenu metodu kullanildi
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_bar)
+        val bottomNavigationView = binding.bottomNavigationBar
         bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu)
         //BottomNavigationView'in arkaplan saydamlastirmasi kismi
         val background = ContextCompat.getDrawable(this, R.drawable.transparent)
-        findViewById<BottomNavigationView>(R.id.bottom_navigation_bar).background = background
+        bottomNavigationView.background = background
         ////BottomNavigationView ile sayfalar arası gecis
         val moviesPage = Intent(this, HomePage::class.java).apply {
+            putExtra("username", getUsername)
         }
         val searchPage = Intent(this, SearchPage::class.java).apply {
+            putExtra("username", getUsername)
+        }
+        val profilePage = Intent(this, ProfilePage::class.java).apply {
+            putExtra("username", getUsername)
         }
         binding.bottomNavigationBar.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_movies -> startActivity(moviesPage)
                 R.id.navigation_search -> startActivity(searchPage)
-                R.id.navigation_profile -> replaceFragment(ProfileFragment(getUsername.toString()))
+                R.id.navigation_profile -> startActivity(profilePage)
                 else -> {
                 }
             }
             true
         }
-        //Popular Movies Listing
+        //Populer Filmlerin Listelenmesi
         binding.rvMoviesList.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        //binding.rvMoviesList.setHasFixedSize(true)
         getPopularMovieData { movies: List<Movie> ->
             binding.rvMoviesList.adapter = MovieAdapter(movies)
         }
-        //Highly Rated Movies Listing
+        //Yuksek Oy Alan Filmlerin Listelenmesi
         binding.rvMoviesList2.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         getHighRatedMovieData { movies: List<Movie> ->
             binding.rvMoviesList2.adapter = MovieAdapter(movies)
         }
-        //Upcoming Movies Listing
+        //Yaklasan Filmlerin Listelenmesi
         binding.rvMoviesList3.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         getUpcomingMovieData { movies: List<Movie> ->
@@ -74,43 +75,46 @@ class HomePage : AppCompatActivity() {
 
     }
 
-    private fun getPopularMovieData(callback: (List<Movie>) -> Unit){
+    private fun getPopularMovieData(callback: (List<Movie>) -> Unit) {
         val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
         apiService.getPopularMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.d("movies","failed")
+                Log.d("movies", "failed")
             }
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                Log.d("movies",response.body().toString())
+                Log.d("movies", response.body().toString())
                 return callback(response.body()!!.movies)
             }
 
         })
     }
-    private fun getHighRatedMovieData(callback: (List<Movie>) -> Unit){
+
+
+    private fun getHighRatedMovieData(callback: (List<Movie>) -> Unit) {
         val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
         apiService.getHighRatedMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.d("movies","failed")
+                Log.d("movies", "failed")
             }
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                Log.d("movies",response.body().toString())
+                Log.d("movies", response.body().toString())
                 return callback(response.body()!!.movies)
             }
 
         })
     }
-    private fun getUpcomingMovieData(callback: (List<Movie>) -> Unit){
+
+    private fun getUpcomingMovieData(callback: (List<Movie>) -> Unit) {
         val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
         apiService.getUpcomingMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.d("movies","failed")
+                Log.d("movies", "failed")
             }
 
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                Log.d("movies",response.body().toString())
+                Log.d("movies", response.body().toString())
                 return callback(response.body()!!.movies)
             }
 

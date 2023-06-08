@@ -17,4 +17,16 @@
     <string name="search">search</string>
     <string name="profile">profile</string>
     <string name="search_for">search for...</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="poster">Poster</string>
+    <string name="title">Title</string>
+    <string name="play_trailer_image">Play Trailer Image</string>
+    <string name="background_poster">Background Poster</string>
+    <string name="rate">Rate</string>
+    <string name="rate_value">TextView</string>
+    <string name="release_date">Release Date :</string>
+    <string name="overview">Overview</string>
+    <string name="rate_tag">Rate :</string>
+    <string name="overview_description">Overview Description</string>
+    <string name="dd_mm_yyyy">DD-MM-YYYY</string>
 </resources>

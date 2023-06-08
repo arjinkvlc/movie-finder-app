@@ -1,4 +1,5 @@
 package com.example.moviefinderapp.models
+
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
@@ -6,23 +7,27 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Movie(
     @SerializedName("id")
-    val id : String ?,
+    val id: String?,
 
     @SerializedName("title")
-    val title : String?,
+    val title: String?,
 
     @SerializedName("poster_path")
-    val poster : String?,
+    val poster: String?,
 
     @SerializedName("release_date")
-    val release : String?,
+    val release: String?,
 
     @SerializedName("overview")
     val overview: String?,
 
     @SerializedName("vote_average")
-    val vote_average: String?
+    val vote_average: String?,
 
-) : Parcelable{
-    constructor() : this("", "", "", "","","")
+    @SerializedName("key")
+    val key: String?
+
+
+) : Parcelable {
+    constructor() : this("", "", "", "", "", "", "")
 }

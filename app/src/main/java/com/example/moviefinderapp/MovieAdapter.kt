@@ -12,25 +12,27 @@ import com.bumptech.glide.Glide
 import com.example.moviefinderapp.models.Movie
 
 class MovieAdapter(
-    private val movies : List<Movie>
-) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(){
+    private val movies: List<Movie>
+) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    class MovieViewHolder(view : View) : RecyclerView.ViewHolder(view){
+    class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val IMAGE_BASE = "https://image.tmdb.org/t/p/w500/"
-        fun bindMovie(movie : Movie){
-            val movieTitle=itemView.findViewById<TextView>(R.id.movie_title)
-            val moviePoster=itemView.findViewById<ImageView>(R.id.movie_poster)
-            movieTitle.text=movie.title
-            Log.d("deneme3",movie.title.toString())
+        fun bindMovie(movie: Movie) {
+            val movieTitle = itemView.findViewById<TextView>(R.id.movie_title)
+            val moviePoster = itemView.findViewById<ImageView>(R.id.movie_poster)
+            movieTitle.text = movie.title
+            Log.d("deneme3", movie.title.toString())
             Glide.with(itemView).load(IMAGE_BASE + movie.poster).into(moviePoster)
             //Navigating to the Movie Details
-            moviePoster.setOnClickListener(){
+            moviePoster.setOnClickListener() {
                 val movieDetail = Intent(itemView.context, MovieDetail::class.java).apply {
-                    putExtra("putTitle",movie.title)
-                    putExtra("putPoster",IMAGE_BASE+movie.poster)
-                    putExtra("putRelease",movie.release)
-                    putExtra("putOverview",movie.overview)
-                    putExtra("putRate",movie.vote_average)
+                    putExtra("putTitle", movie.title)
+                    putExtra("putPoster", IMAGE_BASE + movie.poster)
+                    putExtra("putRelease", movie.release)
+                    putExtra("putOverview", movie.overview)
+                    putExtra("putRate", movie.vote_average)
+                    putExtra("putId", movie.id)
+                    putExtra("putKey", movie.key)
                 }
                 itemView.context.startActivity(movieDetail)
             }

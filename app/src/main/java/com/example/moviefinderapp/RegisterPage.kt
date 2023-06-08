@@ -3,33 +3,34 @@ package com.example.moviefinderapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
-import com.google.android.material.textfield.TextInputEditText
+import com.example.moviefinderapp.databinding.ActivityRegisterPageBinding
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class RegisterPage : AppCompatActivity() {
+    private lateinit var binding: ActivityRegisterPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_page)
+        binding = ActivityRegisterPageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         FirebaseApp.initializeApp(this)
         val database = Firebase.database
         val myRef = database.getReference("users")
-        val registerButton = findViewById<Button>(R.id.register_button)
+        val registerButton = binding.registerButton
         val auth = FirebaseAuth.getInstance()
         registerButton.setOnClickListener {
-            val usernameInput = findViewById<TextInputEditText>(R.id.signup_username)
-            val emailInput = findViewById<TextInputEditText>(R.id.signup_email)
-            val passwordInput = findViewById<TextInputEditText>(R.id.signup_password)
+            val usernameInput = binding.signupUsername
+            val emailInput = binding.signupEmail
+            val passwordInput = binding.signupPassword
             val username = usernameInput?.text.toString()
             val email = emailInput?.text.toString()
             //Firebase Realtime veritabanina kullanici bilgilerini kaydetme
             val password = passwordInput?.text.toString()
             val userData = User(username, email, password)
-            if(username!="" && email!="" && password!="") {
+            if (username != "" && email != "" && password != "") {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
@@ -51,7 +52,7 @@ class RegisterPage : AppCompatActivity() {
                                 .show()
                         }
                     }
-            }else{
+            } else {
                 Toast.makeText(
                     this,
                     "Please fill all the form!",
@@ -63,6 +64,6 @@ class RegisterPage : AppCompatActivity() {
     }
 }
 
-class User(val username: String, val email: String, val password: String){
+data class User(val username: String, val email: String, val password: String) {
 
 }
