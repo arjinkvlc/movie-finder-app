@@ -76,7 +76,7 @@ class MovieDetail() : AppCompatActivity() {
             val apiKey = "bdfa51ccaa4f489cc344ee40f51fba3c"
             val guestSessionUrl =
                 "https://api.themoviedb.org/3/authentication/guest_session/new?api_key=$apiKey"
-            val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+            val apiService = MovieApiService.getInstance(applicationContext).create(MovieApiInterface::class.java)
             apiService.createGuestSession(apiKey).enqueue(object : Callback<GuestSessionResponse> {
                 override fun onResponse(
                     call: Call<GuestSessionResponse>,
@@ -123,7 +123,7 @@ class MovieDetail() : AppCompatActivity() {
     }
 
     private fun getVideoTrailer(callback: (List<Movie>) -> Unit) {
-        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        val apiService = MovieApiService.getInstance(applicationContext).create(MovieApiInterface::class.java)
         apiService.getVideoTrailer(intent.getStringExtra("putId").toString())
             .enqueue(object : Callback<MovieResponse> {
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {

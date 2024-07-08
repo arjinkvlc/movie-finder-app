@@ -11,14 +11,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    //Firebase Console'un çalıştırılması için başlatma komutu
     val auth = FirebaseAuth.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //Firebase Console'un çalıştırılması için başlatma komutu
         FirebaseApp.initializeApp(this)
-        val auth = FirebaseAuth.getInstance()
         //Butonları ve inputları değişkene atama kısmı
         val loginButton = binding.loginButton
         val emailInput = binding.usernameOrEmailInput
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
                             val homePage = Intent(this, HomePage::class.java).apply {
                                 putExtra("username", email)
                             }
-
                             startActivity(homePage)
                             //Oturum acildiktan sonra geri dönüldüğünde uygulamadan cikis yapimasini sağlar
                             finish()

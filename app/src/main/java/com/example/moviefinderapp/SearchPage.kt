@@ -73,7 +73,7 @@ class SearchPage : AppCompatActivity() {
     }
 
     private fun getSearchedMovieData(callback: (List<Movie>) -> Unit) {
-        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        val apiService = MovieApiService.getInstance(applicationContext).create(MovieApiInterface::class.java)
         apiService.getSearchedMovieList(binding.search.text.toString())
             .enqueue(object : Callback<MovieResponse> {
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {

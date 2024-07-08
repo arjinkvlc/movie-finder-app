@@ -8,11 +8,13 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.moviefinderapp.databinding.ActivityHomePageBinding
 import com.example.moviefinderapp.models.Movie
 import com.example.moviefinderapp.models.MovieResponse
 import com.example.moviefinderapp.services.MovieApiInterface
 import com.example.moviefinderapp.services.MovieApiService
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -76,7 +78,7 @@ class HomePage : AppCompatActivity() {
     }
 
     private fun getPopularMovieData(callback: (List<Movie>) -> Unit) {
-        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        val apiService = MovieApiService.getInstance(applicationContext).create(MovieApiInterface::class.java)
         apiService.getPopularMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.d("movies", "failed")
@@ -92,7 +94,7 @@ class HomePage : AppCompatActivity() {
 
 
     private fun getHighRatedMovieData(callback: (List<Movie>) -> Unit) {
-        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        val apiService = MovieApiService.getInstance(applicationContext).create(MovieApiInterface::class.java)
         apiService.getHighRatedMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.d("movies", "failed")
@@ -107,7 +109,7 @@ class HomePage : AppCompatActivity() {
     }
 
     private fun getUpcomingMovieData(callback: (List<Movie>) -> Unit) {
-        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        val apiService = MovieApiService.getInstance(applicationContext).create(MovieApiInterface::class.java)
         apiService.getUpcomingMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.d("movies", "failed")

@@ -75,7 +75,7 @@ class ProfilePage : AppCompatActivity() {
     }
 
     private fun getFavouriteMovies(callback: (List<Movie>) -> Unit) {
-        val apiService = MovieApiService.getInstance().create(MovieApiInterface::class.java)
+        val apiService = MovieApiService.getInstance(applicationContext).create(MovieApiInterface::class.java)
         apiService.getFavouriteMovieList().enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                 Log.d("movies", "failed")

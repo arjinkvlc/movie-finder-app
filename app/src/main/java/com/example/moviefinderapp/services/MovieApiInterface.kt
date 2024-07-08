@@ -17,7 +17,7 @@ interface MovieApiInterface {
     @GET("/3/movie/upcoming?api_key=bdfa51ccaa4f489cc344ee40f51fba3c")
     fun getUpcomingMovieList(): Call<MovieResponse>
 
-    @GET("/3/search/movie?api_key=bdfa51ccaa4f489cc344ee40f51fba3c")
+    @GET("/3/search/movie?&include_adult=false&api_key=bdfa51ccaa4f489cc344ee40f51fba3c")
     fun getSearchedMovieList(@Query("query") title: String): Call<MovieResponse>
 
     @GET("/3/movie/{id}/videos?api_key=bdfa51ccaa4f489cc344ee40f51fba3c")

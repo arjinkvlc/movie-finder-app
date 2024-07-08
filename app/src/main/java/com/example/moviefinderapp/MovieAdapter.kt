@@ -18,6 +18,7 @@ class MovieAdapter(
     class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val IMAGE_BASE = "https://image.tmdb.org/t/p/w500/"
         fun bindMovie(movie: Movie) {
+            //if (movie.adult=="true"){}else{
             val movieTitle = itemView.findViewById<TextView>(R.id.movie_title)
             val moviePoster = itemView.findViewById<ImageView>(R.id.movie_poster)
             movieTitle.text = movie.title
@@ -33,10 +34,12 @@ class MovieAdapter(
                     putExtra("putRate", movie.vote_average)
                     putExtra("putId", movie.id)
                     putExtra("putKey", movie.key)
+                    putExtra("putAdult", movie.adult)
                 }
                 itemView.context.startActivity(movieDetail)
             }
         }
+    //}
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
